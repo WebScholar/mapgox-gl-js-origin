@@ -80,7 +80,7 @@ class Transform {
 
     constructor(minZoom: ?number, maxZoom: ?number, minPitch: ?number, maxPitch: ?number, renderWorldCopies: boolean | void) {
         this.tileSize = 512; // constant
-        this.maxValidLatitude = 85.051129; // constant
+        this.maxValidLatitude = 90; // constant
 
         this._renderWorldCopies = renderWorldCopies === undefined ? true : renderWorldCopies;
         this._minZoom = minZoom || DEFAULT_MIN_ZOOM;
@@ -604,13 +604,13 @@ class Transform {
             roundZoom?: boolean,
             reparseOverscaled?: boolean,
             renderWorldCopies?: boolean,
-            isTerrainDEM?: boolean
+            useElevationData?: boolean
         }
     ): Array<OverscaledTileID> {
         let z = this.coveringZoomLevel(options);
         const actualZ = z;
 
-        const useElevationData = this.elevation && !options.isTerrainDEM;
+        const useElevationData = !!options.useElevationData;
 
         if (options.minzoom !== undefined && z < options.minzoom) return [];
         if (options.maxzoom !== undefined && z > options.maxzoom) z = options.maxzoom;
@@ -638,7 +638,7 @@ class Transform {
         const minRange = options.isTerrainDEM ? -maxRange : this._elevation ? this._elevation.getMinElevationBelowMSL() : 0;
         const newRootTile = (wrap: number): any => {
             const max = maxRange;
-            const min = minRange;
+            const min = -maxRange;
             return {
                 // With elevation, this._elevation provides z coordinate values. For 2D:
                 // All tiles are on zero elevation plane => z difference is zero

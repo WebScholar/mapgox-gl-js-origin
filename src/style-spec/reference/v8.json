@@ -200,6 +200,11 @@
         }
       }
     },
+    "zoomOffset": {
+      "type": "number",
+      "default": 0,
+      "doc": "The zoom number used in tile URLs will be offset with this value."
+    },
     "*": {
       "type": "*",
       "doc": "Other keys to configure the data source."
@@ -280,6 +285,11 @@
           "ios": "5.10.0"
         }
       }
+    },
+    "zoomOffset": {
+      "type": "number",
+      "default": 0,
+      "doc": "The zoom number used in tile URLs will be offset with this value."
     },
     "*": {
       "type": "*",
@@ -362,6 +372,11 @@
         }
       }
     },
+    "zoomOffset": {
+      "type": "number",
+      "default": 0,
+      "doc": "The zoom number used in tile URLs will be offset with this value."
+    },
     "*": {
       "type": "*",
       "doc": "Other keys to configure the data source."
@@ -421,6 +436,10 @@
     "clusterMaxZoom": {
       "type": "number",
       "doc": "Max zoom on which to cluster points if clustering is enabled. Defaults to one zoom less than maxzoom (so that last zoom features are not clustered). Clusters are re-evaluated at integer zoom levels so setting clusterMaxZoom to 14 means the clusters will be displayed until z15."
+    },
+    "clusterMinPoints": {
+      "type": "number",
+      "doc": "Minimum number of points necessary to form a cluster if clustering is enabled. Defaults to `2`."
     },
     "clusterMinPoints": {
       "type": "number",

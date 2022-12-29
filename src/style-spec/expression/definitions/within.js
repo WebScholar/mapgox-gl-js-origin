@@ -28,7 +28,7 @@ function mercatorXfromLng(lng: number) {
 }
 
 function mercatorYfromLat(lat: number) {
-    return (180 - (180 / Math.PI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)))) / 360;
+    return (90 - lat) / 360;
 }
 
 function boxWithinBox(bbox1: BBox, bbox2: BBox) {
@@ -279,6 +279,7 @@ function linesWithinPolygons(ctx: EvaluationContext, polygonGeometry: GeoJSONPol
         }
     }
     return true;
+
 }
 
 class Within implements Expression {

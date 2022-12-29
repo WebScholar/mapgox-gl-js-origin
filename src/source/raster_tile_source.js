@@ -32,6 +32,7 @@ class RasterTileSource extends Evented implements Source {
     url: string;
     scheme: string;
     tileSize: number;
+    zoomOffset: number;
 
     bounds: ?[number, number, number, number];
     tileBounds: TileBounds;
@@ -56,10 +57,11 @@ class RasterTileSource extends Evented implements Source {
         this.roundZoom = true;
         this.scheme = 'xyz';
         this.tileSize = 512;
+        this.zoomOffset = 0;
         this._loaded = false;
 
         this._options = extend({type: 'raster'}, options);
-        extend(this, pick(options, ['url', 'scheme', 'tileSize']));
+        extend(this, pick(options, ['url', 'scheme', 'tileSize', 'zoomOffset']));
     }
 
     load() {
@@ -111,7 +113,7 @@ class RasterTileSource extends Evented implements Source {
 
     loadTile(tile: Tile, callback: Callback<void>) {
         const use2x = browser.devicePixelRatio >= 2;
-        const url = this.map._requestManager.normalizeTileURL(tile.tileID.canonical.url(this.tiles, this.scheme), use2x, this.tileSize);
+        const url = this.map._requestManager.normalizeTileURL(tile.tileID.canonical.url(this.tiles, this.scheme, this.zoomOffset), use2x, this.tileSize);
         tile.request = getImage(this.map._requestManager.transformRequest(url, ResourceType.Tile), (err, img, cacheControl, expires) => {
             delete tile.request;
 

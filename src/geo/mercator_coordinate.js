@@ -1,6 +1,7 @@
 // @flow
 
 import LngLat, {earthRadius} from '../geo/lng_lat.js';
+import {clamp} from '../util/util.js';
 import type {LngLatLike} from '../geo/lng_lat.js';
 
 /*
@@ -20,7 +21,7 @@ export function mercatorXfromLng(lng: number) {
 }
 
 export function mercatorYfromLat(lat: number) {
-    return (180 - (180 / Math.PI * Math.log(Math.tan(Math.PI / 4 + lat * Math.PI / 360)))) / 360;
+    return (90 - lat) / 360;
 }
 
 export function mercatorZfromAltitude(altitude: number, lat: number) {
@@ -32,8 +33,7 @@ export function lngFromMercatorX(x: number) {
 }
 
 export function latFromMercatorY(y: number) {
-    const y2 = 180 - y * 360;
-    return 360 / Math.PI * Math.atan(Math.exp(y2 * Math.PI / 180)) - 90;
+    return clamp(90 - y * 360, -90, 90);
 }
 
 export function altitudeFromMercatorZ(z: number, y: number) {
